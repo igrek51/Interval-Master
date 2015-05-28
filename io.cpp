@@ -66,8 +66,9 @@ void App::echo_show(string s){
     }
 }
 
-void App::echo(string s){
+void App::echo(string s, int colorr){
     unsigned int maxl = 65;
+    color = colorr;
     log(s);
     s = "- "+get_time()+" - "+s;
     do{

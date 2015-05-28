@@ -14,6 +14,7 @@ void App::wm_create(HWND *window){
     sound_0 = -1;
     sound_1 = -1;
     sound_interval = 0;
+    color = 0;
 	//kontrolki
     int ustawienia_w = 145;
 	int x_paint, y_paint;
@@ -84,8 +85,8 @@ void App::wm_create(HWND *window){
     hctrl[60]=create_button("Nowy [F2]",x_paint,y_paint,196,pb_h,60); y_paint+=pb_h;
     hctrl[61]=create_button("Powtórz [F3]",x_paint,y_paint,196,pb_h,61); y_paint+=pb_h;
     hctrl[62]=create_button("Poka¿ [F4]",x_paint,y_paint,196,pb_h,62); y_paint+=pb_h;
-    hctrl[63]=create_button("Ustawienia",x_paint,y_paint,196,pb_h,63); y_paint+=pb_h;
-    hctrl[64]=create_button("Ustawienia",x_paint,y_paint,196,pb_h,64); y_paint+=pb_h;
+    hctrl[63]=create_button("Dalej [spacja]",x_paint,y_paint,196,pb_h,63); y_paint+=pb_h;
+    hctrl[64]=create_button("Edytuj ustawienia",x_paint,y_paint,196,pb_h,64); y_paint+=pb_h;
 	//statystyki
     x_paint = ustawienia_w*3+14+196+4;
     hctrl[66]=create_groupbox("Statystyki",x_paint,155,155,141);
@@ -115,9 +116,10 @@ void App::wm_create(HWND *window){
     select_button_interwaly(2);
     select_button_interwaly(3);
     select_button_interwaly(4);
+    stat_refresh();
 	//midi init
     midi_device = midi_init();
-    //inicjalizacja randomizera
+    //inicjalizacja randomizatora
     srand(time(0));
 	echo("Uruchomiono program w wersji "+version);
 }
@@ -142,6 +144,8 @@ void App::wm_keydown(WPARAM wParam){
         powtorz_interwal();
     }else if(wParam==VK_F4){
         pokaz_interwal();
+    }else if(wParam==VK_SPACE){
+        dalej_interwal();
     }
 }
 
@@ -156,7 +160,15 @@ bool App::wm_colorstatic(WPARAM &wParam, LPARAM lParam){
 	if(ctrl==-1) return false;
 	if(ctrl>=1&&ctrl<=8){
 		SetBkMode((HDC)wParam,TRANSPARENT);
-		SetTextColor((HDC)wParam, RGB(config->komunikaty_c[(ctrl-1)*3],config->komunikaty_c[(ctrl-1)*3+1],config->komunikaty_c[(ctrl-1)*3+2]));
+        COLORREF kolor = RGB(config->komunikaty_c[(ctrl-1)*3],config->komunikaty_c[(ctrl-1)*3+1],config->komunikaty_c[(ctrl-1)*3+2]);
+        if(ctrl==8){
+            if(color==1){
+                kolor = RGB(config->komunikat_good[0],config->komunikat_good[1],config->komunikat_good[2]);
+            }else if(color==2){
+                kolor = RGB(config->komunikat_bad[0],config->komunikat_bad[1],config->komunikat_bad[2]);
+            }
+        }
+        SetTextColor((HDC)wParam, kolor);
 		return true;
 	}
 	return false;

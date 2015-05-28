@@ -14,7 +14,7 @@ LRESULT CALLBACK App::subclass_wndproc_new(HWND hwdp, UINT message, WPARAM wPara
     if(ctrl>=0 && ctrl<=80){
         switch(message){
             case WM_KEYDOWN:{
-                if(wParam==VK_F2||wParam==VK_F3||wParam==VK_F4){
+                if(wParam==VK_F2||wParam==VK_F3||wParam==VK_F4||wParam==VK_SPACE){
                     CallWindowProc(windowProc, hwnd, message, wParam, lParam); //przekazanie do głównego okna
                     return 0; //przechwycenie
                 }

@@ -34,8 +34,16 @@ public:
     int ustawienia_type;
     bool ustawienia_interwaly[12];
     bool ustawienia_oktawy[7];
+    //statystyki
+    bool stat_odpowiedziany;
+    bool stat_odgadniety;
+    int stat_przesluchania;
+    int stat_odpowiedzi;
+    int stat_bledne;
     //stałe
 	static const int komunikaty_c[];
+    static const int komunikat_good[];
+    static const int komunikat_bad[];
 };
 
 #endif // CONFIG_H

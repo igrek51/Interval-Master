@@ -16,6 +16,8 @@ void App::button_click(WPARAM wParam){
         powtorz_interwal();
     }else if(wParam==62){
         pokaz_interwal();
+    }else if(wParam==63){
+        dalej_interwal();
     }else if(wParam==64){
         config_open();
     }else if(wParam>=35 && wParam<=59){

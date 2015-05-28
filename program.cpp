@@ -119,6 +119,9 @@ void App::interval_type_set(int type){
 
 void App::nowy_interwal(){
     sound_0 = -1;
+    config->stat_odpowiedziany = false;
+    config->stat_odgadniety = false;
+    config->stat_przesluchania = 0;
     if(config->ustawienia_type<=TYP_INTERWAL){ //dla interwa≥Ûw
         //lista dostÍpnych düwiÍkÛw
         vector<int> dzwieki;
@@ -179,6 +182,7 @@ void App::nowy_interwal(){
     }
     if(config->ustawienia_tryb==TRYB_ROZPOZNAWANIE){ //rozpoznawanie
         play_interval();
+        config->stat_przesluchania=1;
         if(config->ustawienia_type<=TYP_INTERWAL){ //dla interwa≥Ûw
             echo("Wygenerowano nowy interwa≥.");
         }else if(config->ustawienia_type==TYP_DZWIEK){ //pojedynczy düwiÍk
@@ -195,10 +199,15 @@ void App::nowy_interwal(){
         }
         echo(ss.str());
     }
+    stat_refresh();
 }
 
 void App::powtorz_interwal(){
     if(config->ustawienia_tryb==TRYB_NAUKA) return;
+    if(!config->stat_odpowiedziany){
+        config->stat_przesluchania++;
+        stat_refresh();
+    }
     if(config->ustawienia_type<=TYP_INTERWAL){
         if(sound_0<0){
             echo("B≥πd: brak interwa≥u");
@@ -223,6 +232,12 @@ void App::powtorz_interwal(){
 
 void App::pokaz_interwal(){
     if(config->ustawienia_tryb==TRYB_NAUKA) return;
+    if(!config->stat_odpowiedziany){
+        config->stat_odpowiedziany = true;
+        config->stat_odpowiedzi++;
+        config->stat_bledne++;
+        stat_refresh();
+    }
     if(sound_0<0){
         echo("B≥πd: brak düwiÍku podstawowego");
         return;
@@ -243,6 +258,14 @@ void App::pokaz_interwal(){
         ss<<"Odpowiedü: Akord "<<sound_names[note_semitone(sound_0)+12];
     }
     echo(ss.str());
+}
+
+void App::dalej_interwal(){
+    if(sound_0<0 || (config->stat_odpowiedziany && config->stat_odgadniety)){
+        nowy_interwal();
+    }else{
+        powtorz_interwal();
+    }
 }
 
 void App::odp_interwal(int odp){
@@ -266,23 +289,41 @@ void App::odp_interwal(int odp){
             echo("B≥πd: brak düwiÍku podstawowego");
             return;
         }
-        ss_clear(ss);
+        bool odpowiedz = false;
         if(config->ustawienia_type<=TYP_INTERWAL){ //dla interwa≥Ûw
             //poprawna odpowiedü
             if(odp == sound_1-sound_0){
-                ss<<"Poprawna odpowiedü!";
+                odpowiedz = true;
             }else{
-                ss<<"Z≥a odpowiedü.";
+                odpowiedz = false;
             }
         }else if(config->ustawienia_type==TYP_DZWIEK || config->ustawienia_type==TYP_AKORD_D || config->ustawienia_type==TYP_AKORD_M){
             //poprawna odpowiedü
             if(odp-1 == note_semitone(sound_0)){
-                ss<<"Poprawna odpowiedü!";
+                odpowiedz = true;
             }else{
-                ss<<"Z≥a odpowiedü.";
+                odpowiedz = false;
             }
         }
-        echo(ss.str());
+        if(!config->stat_odpowiedziany){
+            config->stat_odpowiedzi++;
+            if(!odpowiedz){
+                config->stat_bledne++;
+            }
+        }
+        config->stat_odpowiedziany = true;
+        if(!config->stat_odgadniety)
+            config->stat_odgadniety = odpowiedz;
+        stat_refresh();
+        ss_clear(ss);
+        if(odpowiedz){
+            ss<<"Poprawna odpowiedü!";
+            color = 1;
+        }else{
+            ss<<"Z≥a odpowiedü.";
+            color = 2;
+        }
+        echo(ss.str(),color);
     }
 }
 
@@ -307,4 +348,21 @@ void App::play_interval(){
         midi_play_note(sound_0+7);
         midi_play_note(sound_0+12);
     }
+}
+
+void App::stat_refresh(){
+    ss_clear(ss);
+    ss<<"Odpowiedzi: "<<config->stat_odpowiedzi;
+    SetWindowText(hctrl[67],ss.str().c_str());
+    ss_clear(ss);
+    ss<<"B≥Ídne: "<<config->stat_bledne;
+    SetWindowText(hctrl[68],ss.str().c_str());
+    ss_clear(ss);
+    if(config->stat_odpowiedzi>0){
+        ss<<"Poprawne: "<<(config->stat_odpowiedzi-config->stat_bledne)*100/config->stat_odpowiedzi<<"%";
+    }
+    SetWindowText(hctrl[69],ss.str().c_str());
+    ss_clear(ss);
+    ss<<"Liczba przes≥uchaÒ: "<<config->stat_przesluchania;
+    SetWindowText(hctrl[70],ss.str().c_str());
 }

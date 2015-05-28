@@ -8,6 +8,11 @@ Config::Config(){
         ustawienia_interwaly[i]=false;
     for(int i=0; i<7; i++)
         ustawienia_oktawy[i]=false;
+    stat_odpowiedziany = false;
+    stat_odgadniety = false;
+    stat_przesluchania = 0;
+    stat_odpowiedzi = 0;
+    stat_bledne = 0;
 }
 
 Config::~Config(){
@@ -43,4 +48,12 @@ const int Config::komunikaty_c[] = {
 0,0,0,
 0,0,0,
 0,0,0
+};
+
+const int Config::komunikat_good[] = {
+0,150,0
+};
+
+const int Config::komunikat_bad[] = {
+180,0,0
 };

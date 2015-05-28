@@ -26,11 +26,12 @@ public:
 	int argc;
 	stringstream ss;
 	string echos[8];
+    int color;
 	void clear_file(string filename);
 	void log(string l);
 	void log(int l);
     void echo_show(string s);
-	void echo(string s);
+    void echo(string s, int colorr=0);
 	void echo(int e);
 	void echo();
 	bool file_exists(string name);
@@ -91,10 +92,14 @@ public:
     void nowy_interwal();
     void powtorz_interwal();
     void pokaz_interwal();
+    void dalej_interwal();
     void odp_interwal(int odp);
     int sound_0, sound_1;
     int sound_interval;
     void play_interval();
+
+    //STATYSTYKI
+    void stat_refresh();
 
 };
 
