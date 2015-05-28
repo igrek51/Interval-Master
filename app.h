@@ -100,6 +100,7 @@ public:
 
     //STATYSTYKI
     void stat_refresh();
+    void stat_reset();
 
 };
 

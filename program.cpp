@@ -366,3 +366,12 @@ void App::stat_refresh(){
     ss<<"Liczba przes³uchañ: "<<config->stat_przesluchania;
     SetWindowText(hctrl[70],ss.str().c_str());
 }
+
+void App::stat_reset(){
+    config->stat_odpowiedziany = false;
+    config->stat_odgadniety = false;
+    config->stat_przesluchania = 0;
+    config->stat_odpowiedzi = 0;
+    config->stat_bledne = 0;
+    stat_refresh();
+}

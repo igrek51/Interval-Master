@@ -20,6 +20,8 @@ void App::button_click(WPARAM wParam){
         dalej_interwal();
     }else if(wParam==64){
         config_open();
+    }else if(wParam==80){
+        stat_reset();
     }else if(wParam>=35 && wParam<=59){
         odp_interwal(wParam-47);
     }
