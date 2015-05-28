@@ -14,14 +14,12 @@ void App::interval_or_chord(){
     }else{ //akord lub dŸwiêk
         if(config->ustawienia_type==TYP_DZWIEK){
             description = "DŸwiêki";
-        }else if(config->ustawienia_type>=TYP_AKORD_D && config->ustawienia_type<=TYP_AKORD_DM){
+        }else if(config->ustawienia_type>=TYP_AKORD){
             description = "Akordy";
         }
         for(int i=0; i<12; i++){
             ss_clear(ss);
-            if(config->ustawienia_type==TYP_AKORD_DM){
-                ss<<sound_names[i]<<", "<<sound_names[i+12];
-            }else if(config->ustawienia_type==TYP_AKORD_M){
+            if(config->ustawienia_type==TYP_AKORD_M){
                 ss<<sound_names[i+12];
             }else{
                 ss<<sound_names[i];
@@ -30,9 +28,6 @@ void App::interval_or_chord(){
         }
     }
     SetWindowText(hctrl[22],description.c_str());
-    //widocznoœæ przycisków odp akordu
-    ShowWindow(hctrl[64],config->ustawienia_type==7?SW_SHOW:SW_HIDE);
-    ShowWindow(hctrl[65],config->ustawienia_type==7?SW_SHOW:SW_HIDE);
     odp_b_refresh();
 }
 
@@ -44,7 +39,7 @@ void App::odp_b_refresh(){
     int polowa = 0;
     if(config->ustawienia_type==TYP_INTERWAL_R){ //prawa po³owa (z zerem)
         polowa = 1;
-    }else if(config->ustawienia_type>=TYP_INTERWAL_H&&config->ustawienia_type<=TYP_AKORD_DM){ //prawa po³owa (bez zera)
+    }else if(config->ustawienia_type>=TYP_INTERWAL_H){ //prawa po³owa (bez zera)
         polowa = 2;
     }else if(config->ustawienia_type==TYP_INTERWAL_M){ //lewa po³owa (z zerem)
         polowa = -1;
@@ -108,9 +103,6 @@ void App::odp_b_text_refresh(){
         }else if(config->ustawienia_type==TYP_AKORD_M){
             if(i<=0) continue;
             ss<<sound_names[i+11];
-        }else if(config->ustawienia_type==TYP_AKORD_DM){
-            if(i<=0) continue;
-            ss<<sound_names[i-1]<<"\r\n"<<sound_names[i+11];
         }
         SetWindowText(hctrl[35+i+12],ss.str().c_str());
     }
@@ -185,18 +177,13 @@ void App::nowy_interwal(){
         //losowanie dŸwiêku
         sound_0 = dzwieki[rand()%dzwieki.size()];
     }
-
-    if(sound_0<0){
-        return;
-    }
-
     if(config->ustawienia_tryb==TRYB_ROZPOZNAWANIE){ //rozpoznawanie
         play_interval();
         if(config->ustawienia_type<=TYP_INTERWAL){ //dla interwa³ów
             echo("Wygenerowano nowy interwa³.");
         }else if(config->ustawienia_type==TYP_DZWIEK){ //pojedynczy dŸwiêk
             echo("Wygenerowano nowy dŸwiêk.");
-        }else if(config->ustawienia_type==TYP_AKORD_D || config->ustawienia_type==TYP_AKORD_M){
+        }else if(config->ustawienia_type>=TYP_AKORD){
             echo("Wygenerowano nowy akord.");
         }
     }else{ //nauka
@@ -224,7 +211,7 @@ void App::powtorz_interwal(){
             return;
         }
         echo("Powtórzono dŸwiêk.");
-    }else if(config->ustawienia_type==TYP_AKORD_D || config->ustawienia_type==TYP_AKORD_M){
+    }else if(config->ustawienia_type>=TYP_AKORD){
         if(sound_0<0){
             echo("B³¹d: brak dŸwiêku podstawowego");
             return;
@@ -313,11 +300,11 @@ void App::play_interval(){
         midi_play_note(sound_0);
         midi_play_note(sound_0+4);
         midi_play_note(sound_0+7);
-        midi_play_note(sound_0+12);
+        midi_play_note(sound_0+12); //z oktaw¹
     }else if(config->ustawienia_type==TYP_AKORD_M){
         midi_play_note(sound_0);
         midi_play_note(sound_0+3);
         midi_play_note(sound_0+7);
-        //midi_play_note(sound_0+12;
+        midi_play_note(sound_0+12);
     }
 }

@@ -68,7 +68,6 @@ public:
     void select_button(int button, int button_offset, int button_nr);
     void select_button_tryb(int button);
     void select_button_type(int button);
-    void select_button_odp_akord(int button);
     void select_button_interwaly(int button, int value=-1);
     void select_button_oktawy(int button, int value=-1);
 
@@ -81,8 +80,7 @@ public:
 	//MIDI
 	HMIDIOUT *midi_device;
 	HMIDIOUT* midi_init();
-	void midi_play_note(int note);
-	void midi_play_chord(int note, int chord_type);
+    void midi_play_note(int note);
 	void midi_close(HMIDIOUT *midi_device);
 
 	//PROGRAM

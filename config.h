@@ -6,7 +6,7 @@ using namespace std;
 //tryb
 const int TRYB_NAUKA = 0;
 const int TRYB_ROZPOZNAWANIE = 1;
-//typ interwa≥u
+//typ interwa≈Çu
 const int TYP_INTERWAL_R = 0;
 const int TYP_INTERWAL_M = 1;
 const int TYP_INTERWAL_RM = 2;
@@ -15,8 +15,8 @@ const int TYP_INTERWAL = 3;
 const int TYP_DZWIEK = 4;
 const int TYP_AKORD_D = 5;
 const int TYP_AKORD_M = 6;
-const int TYP_AKORD_DM = 7;
-//odpowiedü akordu
+const int TYP_AKORD = 5;
+//odpowied≈∫ akordu
 const int ODP_D = 0;
 const int ODP_M = 1;
 
@@ -34,8 +34,7 @@ public:
     int ustawienia_type;
     bool ustawienia_interwaly[12];
     bool ustawienia_oktawy[7];
-    int odp_akord;
-    //sta≥e
+    //sta≈Çe
 	static const int komunikaty_c[];
 };
 

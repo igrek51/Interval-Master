@@ -34,7 +34,7 @@ void App::wm_create(HWND *window){
     hctrl[11]=create_radiobutton("Nauka",x_paint,y_paint,ustawienia_w-23,18,11); y_paint+=20;
     hctrl[12]=create_radiobutton("Rozpoznawanie",x_paint,y_paint,ustawienia_w-23,18,12); x_paint-=10; y_paint+=27;
 	//typ interwa³u
-    hctrl[13]=create_groupbox("Typ interwa³u / dŸwiêku",x_paint,y_paint,ustawienia_w-9,184); x_paint+=10; y_paint+=20;
+    hctrl[13]=create_groupbox("Typ interwa³u / dŸwiêku",x_paint,y_paint,ustawienia_w-9,164); x_paint+=10; y_paint+=20;
     hctrl[14]=create_radiobutton("interwa³ rosn¹cy",x_paint,y_paint,ustawienia_w-23,18,14); y_paint+=20;
     hctrl[15]=create_radiobutton("interwa³ malej¹cy",x_paint,y_paint,ustawienia_w-23,18,15); y_paint+=20;
     hctrl[16]=create_radiobutton("rosn¹cy lub malej¹cy",x_paint,y_paint,ustawienia_w-23,18,16); y_paint+=20;
@@ -42,10 +42,6 @@ void App::wm_create(HWND *window){
     hctrl[18]=create_radiobutton("pojedynczy dŸwiêk",x_paint,y_paint,ustawienia_w-23,18,18); y_paint+=20;
     hctrl[19]=create_radiobutton("akord durowy",x_paint,y_paint,ustawienia_w-23,18,19); y_paint+=20;
     hctrl[20]=create_radiobutton("akord molowy",x_paint,y_paint,ustawienia_w-23,18,20); y_paint+=20;
-    hctrl[21]=create_radiobutton("durowy lub molowy",x_paint,y_paint,ustawienia_w-23,18,21); y_paint+=20;
-
-    ShowWindow(hctrl[21],SW_HIDE);
-
 	//wielkoœæ interwa³u
     x_paint += ustawienia_w-13; y_paint = 23;
     hctrl[22]=create_groupbox("Wielkoœæ interwa³u",x_paint,y_paint,ustawienia_w-9,265); x_paint+=10; y_paint+=20;
@@ -89,9 +85,7 @@ void App::wm_create(HWND *window){
     hctrl[61]=create_button("Powtórz [F3]",x_paint,y_paint,196,pb_h,61); y_paint+=pb_h;
     hctrl[62]=create_button("Poka¿ [F4]",x_paint,y_paint,196,pb_h,62); y_paint+=pb_h;
     hctrl[63]=create_button("Ustawienia",x_paint,y_paint,196,pb_h,63); y_paint+=pb_h;
-    x_paint+=8; y_paint+=7;
-    hctrl[64]=create_radiobutton("akord durowy",x_paint,y_paint,90,15,64); x_paint+=95;
-    hctrl[65]=create_radiobutton("akord molowy",x_paint,y_paint,90,15,65);
+    hctrl[64]=create_button("Ustawienia",x_paint,y_paint,196,pb_h,64); y_paint+=pb_h;
 	//statystyki
     x_paint = ustawienia_w*3+14+196+4;
     hctrl[66]=create_groupbox("Statystyki",x_paint,155,155,141);
@@ -100,7 +94,6 @@ void App::wm_create(HWND *window){
     hctrl[68]=create_static("B³êdne: 2",x_paint,y_paint,127,15,0); y_paint+=15;
     hctrl[69]=create_static("Poprawne: 80%",x_paint,y_paint,127,15,0); y_paint+=15;
     hctrl[70]=create_static("Liczba przes³uchañ: 0",x_paint,y_paint,127,15,0); y_paint+=15;
-    hctrl[71]=create_static("Punkty: 1500",x_paint,y_paint,127,15,0); y_paint+=24;
     hctrl[80]=create_button("Resetuj statystyki",x_paint,y_paint,137,pb_h,80); y_paint+=pb_h;
 	//czcionki
 	fontsize=13;
@@ -115,7 +108,6 @@ void App::wm_create(HWND *window){
     //pierwsze ustawienia przycisków
     select_button_tryb(config->ustawienia_tryb);
     select_button_type(config->ustawienia_type);
-    select_button_odp_akord(config->odp_akord);
     select_button_oktawy(2);
     select_button_oktawy(3);
     select_button_interwaly(0);

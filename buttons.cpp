@@ -4,12 +4,10 @@
 void App::button_click(WPARAM wParam){
     if(wParam>=11 && wParam<=12){
         select_button_tryb(wParam-11);
-    }else if(wParam>=14 && wParam<=21){
+    }else if(wParam>=14 && wParam<=20){
         select_button_type(wParam-14);
     }else if(wParam>=23 && wParam<=34){
         select_button_interwaly(wParam-23);
-    }else if(wParam>=64 && wParam<=65){
-        select_button_odp_akord(wParam-64);
     }else if(wParam>=73 && wParam<=79){
         select_button_oktawy(wParam-73);
     }else if(wParam==60){
@@ -18,7 +16,7 @@ void App::button_click(WPARAM wParam){
         powtorz_interwal();
     }else if(wParam==62){
         pokaz_interwal();
-    }else if(wParam==63){
+    }else if(wParam==64){
         config_open();
     }else if(wParam>=35 && wParam<=59){
         odp_interwal(wParam-47);
@@ -79,13 +77,8 @@ void App::select_button_tryb(int button){
 
 void App::select_button_type(int button){
     config->ustawienia_type=button;
-    select_button(button,14,8);
+    select_button(button,14,7);
     interval_type_set(config->ustawienia_type);
-}
-
-void App::select_button_odp_akord(int button){
-    config->odp_akord=button;
-    select_button(button,64,2);
 }
 
 void App::select_button_interwaly(int button, int value){

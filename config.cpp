@@ -8,7 +8,6 @@ Config::Config(){
         ustawienia_interwaly[i]=false;
     for(int i=0; i<7; i++)
         ustawienia_oktawy[i]=false;
-    odp_akord = 0;
 }
 
 Config::~Config(){

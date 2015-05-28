@@ -25,6 +25,7 @@ LRESULT CALLBACK App::subclass_wndproc_new(HWND hwdp, UINT message, WPARAM wPara
 }
 
 void App::subclass(int ctrl){
+    if(hctrl[ctrl]==NULL) return;
 	wndproc_old[ctrl] = (WNDPROC) SetWindowLong(hctrl[ctrl],GWL_WNDPROC,(LONG)wndproc_new);
 }
 
