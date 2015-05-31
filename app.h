@@ -43,6 +43,7 @@ public:
 
 	//CONFIG
 	void load_config();
+    void save_config();
     void config_open();
 	Config *config;
 

@@ -29,6 +29,7 @@ App::~App(){
 		un_subclass(i);
 		if(hctrl[i]!=NULL) DestroyWindow(hctrl[i]);
 	}
+    save_config();
 	delete config;
 	log("Goodbye World...");
 	PostQuitMessage(0);
