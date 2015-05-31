@@ -50,28 +50,31 @@ bool next_element(string element0, vector<string> *elements, int &next){
                 next = i+1;
                 return true;
             }else{
-                cout<<"[!] BLAD: brak parametru po "<<element0<<endl;
                 next = -2;
                 return false; //nie istnieje nastêpny
             }
         }
     }
     next = -1;
-    return false; //nie znalaz³o argumentu
+    return false; //nie znalaz³o elementu
 }
 
-void update_config(vector<string> *&lines, string var_name, int var_value){
+void update_config(vector<string> *&lines, string var_name, string var_value){
     int next2 = 0;
-    stringstream ss2;
-    ss2<<var_value;
     if(next_element(var_name,lines,next2)){ //jeœli ju¿ jest ten element
         //nadpisanie linii danych
-        lines->at(next2) = ss2.str();
+        lines->at(next2) = var_value;
     }else{
         //utworzenie nowych linii
         lines->push_back(var_name);
-        lines->push_back(ss2.str());
+        lines->push_back(var_value);
     }
+}
+
+void update_config(vector<string> *&lines, string var_name, int var_value){
+    stringstream ss2;
+    ss2<<var_value;
+    update_config(lines, var_name, ss2.str());
 }
 
 void App::load_config(){
@@ -81,6 +84,16 @@ void App::load_config(){
     config->midi_volume = 100;
     config->midi_basetone = 60;
     config->midi_pause = 500;
+    config->ustawienia_type = TYP_INTERWAL_RM;
+    for(int i=0; i<12; i++)
+        config->ustawienia_interwaly[i]=false;
+    config->ustawienia_interwaly[0] = true;
+    config->ustawienia_interwaly[1] = true;
+    config->ustawienia_interwaly[2] = true;
+    for(int i=0; i<7; i++)
+        config->ustawienia_oktawy[i]=false;
+    config->ustawienia_oktawy[2] = true;
+    config->ustawienia_oktawy[3] = true;
     //wczytanie pliku
     vector<string> *lines = get_all_lines("config.txt");
     if(lines==NULL){
@@ -100,6 +113,35 @@ void App::load_config(){
     if(next_element("pause=",lines,next2)){
         config->midi_pause = atoi(lines->at(next2).c_str());
     }
+    if(next_element("interval_type=",lines,next2)){
+        config->ustawienia_type = atoi(lines->at(next2).c_str());
+        if(config->ustawienia_type<0) config->ustawienia_type = 0;
+        if(config->ustawienia_type>6) config->ustawienia_type = 6;
+    }
+    if(next_element("interwaly=",lines,next2)){
+        string interwaly = lines->at(next2);
+        if(interwaly.length()>=12){
+            for(int i=0; i<12; i++){
+                if(interwaly[i]=='1'){
+                    config->ustawienia_interwaly[i] = true;
+                }else{
+                    config->ustawienia_interwaly[i] = false;
+                }
+            }
+        }
+    }
+    if(next_element("oktawy=",lines,next2)){
+        string oktawy = lines->at(next2);
+        if(oktawy.length()>=7){
+            for(int i=0; i<7; i++){
+                if(oktawy[i]=='1'){
+                    config->ustawienia_oktawy[i] = true;
+                }else{
+                    config->ustawienia_oktawy[i] = false;
+                }
+            }
+        }
+    }
     lines->clear();
     delete lines;
 }
@@ -116,6 +158,27 @@ void App::save_config(){
     update_config(lines, "volume=", config->midi_volume);
     update_config(lines, "basetone=", config->midi_basetone);
     update_config(lines, "pause=", config->midi_pause);
+    update_config(lines, "interval_type=", config->ustawienia_type);
+    //ci¹g w³¹czonych interwa³ów
+    string interwaly = "";
+    for(int i=0; i<12; i++){
+        if(config->ustawienia_interwaly[i]){
+            interwaly += "1";
+        }else{
+            interwaly += "0";
+        }
+    }
+    update_config(lines, "interwaly=", interwaly);
+    //ci¹g w³¹czonych oktaw
+    string oktawy = "";
+    for(int i=0; i<7; i++){
+        if(config->ustawienia_oktawy[i]){
+            oktawy += "1";
+        }else{
+            oktawy += "0";
+        }
+    }
+    update_config(lines, "oktawy=", oktawy);
     //zapisanie do pliku
     fstream plik;
     plik.open("config.txt",fstream::out|fstream::trunc|fstream::binary);
@@ -124,7 +187,9 @@ void App::save_config(){
         return;
     }
     for(unsigned int i=0; i<lines->size(); i++){
-        plik<<lines->at(i)<<endl;
+        if(i<lines->size()-1 || lines->at(i).length()>0){
+            plik<<lines->at(i)<<endl;
+        }
     }
     plik.close();
     lines->clear();

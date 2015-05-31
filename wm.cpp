@@ -109,13 +109,16 @@ void App::wm_create(HWND *window){
     //pierwsze ustawienia przycisków
     select_button_tryb(config->ustawienia_tryb);
     select_button_type(config->ustawienia_type);
-    select_button_oktawy(2);
-    select_button_oktawy(3);
-    select_button_interwaly(0);
-    select_button_interwaly(1);
-    select_button_interwaly(2);
-    select_button_interwaly(3);
-    select_button_interwaly(4);
+    for(int i=0; i<12; i++){
+        if(config->ustawienia_interwaly[i]){
+            select_button_interwaly(i,1);
+        }
+    }
+    for(int i=0; i<7; i++){
+        if(config->ustawienia_oktawy[i]){
+            select_button_oktawy(i,1);
+        }
+    }
     stat_refresh();
 	//midi init
     midi_device = midi_init();

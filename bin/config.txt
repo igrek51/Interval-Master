@@ -13,6 +13,7 @@ instrument=
 
 volume=
 100
+//g³oœnoœæ: 0 - 100
 
 basetone=
 60
@@ -22,3 +23,14 @@ pause=
 500
 //odstêp czasu miêdzy dwoma dŸwiêkami (w milisekundach)
 
+interval_type=
+2
+//typ interwa³u / dŸwiêku: 0-6
+
+interwaly=
+111000000000
+//ostatnio w³¹czone interwa³y (0 - wy³¹czony, 1 - w³¹czony)
+
+oktawy=
+0011000
+//ostatnio wybrane oktawy (0 - wy³¹czona, 1 - w³¹czona)

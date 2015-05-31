@@ -87,7 +87,7 @@ void App::select_button_type(int button){
 
 void App::select_button_interwaly(int button, int value){
     if(value==-1){
-        config->ustawienia_interwaly[button]=!config->ustawienia_interwaly[button];
+        config->ustawienia_interwaly[button] = !config->ustawienia_interwaly[button];
     }else if(value==0){
         config->ustawienia_interwaly[button] = false;
     }else if(value==1){
