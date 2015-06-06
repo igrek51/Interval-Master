@@ -261,7 +261,8 @@ void App::pokaz_interwal(){
 }
 
 void App::dalej_interwal(){
-    if(sound_0<0 || (config->stat_odpowiedziany && config->stat_odgadniety)){
+    if(config->ustawienia_tryb==TRYB_NAUKA) return;
+    if(sound_0<0 || (config->stat_odpowiedziany && config->stat_odgadniety) || config->stat_odpowiedzi==0){
         nowy_interwal();
     }else{
         powtorz_interwal();

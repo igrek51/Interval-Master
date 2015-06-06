@@ -1,8 +1,8 @@
-//v 1 2 3
-// -- 21:57:03, 31.05.2015 --
+//v 1 2 4
+// -- 18:49:16, 06.06.2015 --
 #ifndef VERSION_H
 #define VERSION_H
 
-#define VERSION "1.2.3"
+#define VERSION "1.2.4"
 
 #endif
