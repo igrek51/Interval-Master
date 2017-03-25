@@ -313,6 +313,8 @@ void App::odp_interwal(int odp){
                 config->stat_bledne++;
             }
         }else{ //kolejna odpowiedŸ
+        	int old_sound_0 = sound_0;
+        	int old_sound_1 = sound_1;
             // odtworzenie wybranej odpowiedzi
             if(config->ustawienia_type<=TYP_INTERWAL){
                 if(sound_0<0){
@@ -328,6 +330,9 @@ void App::odp_interwal(int odp){
                 sound_0 = note_C(note_octave(sound_0)) + odp-1;
             }
             play_interval();
+            // przywrócenie starych wartoœci sound_0 i sound_1
+            sound_0 = old_sound_0;
+        	sound_1 = old_sound_1;
         }
         
         config->stat_odpowiedziany = true;
@@ -350,6 +355,7 @@ void App::play_interval(){
     if(config->ustawienia_type<=TYP_INTERWAL){ //dla interwa³ów
         midi_play_note(sound_0);
         if(config->ustawienia_type<=TYP_INTERWAL_RM){ //rosn¹cy i/lub malej¹cy
+        	sound_1_to_play = sound_1; // zapamiêtaj dŸwiêk do zagrania póŸniej
             SetTimer(hwnd, 1, config->midi_pause, NULL);
         }else{ //harmoniczny
             midi_play_note(sound_1);

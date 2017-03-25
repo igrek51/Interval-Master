@@ -13,6 +13,7 @@ void App::wm_create(HWND *window){
     //inicjalizacja parametrów
     sound_0 = -1;
     sound_1 = -1;
+    sound_1_to_play = -1;
     sound_interval = 0;
     color = 0;
 	//kontrolki
@@ -134,7 +135,7 @@ void App::wm_command(WPARAM wParam){
 void App::wm_timer(WPARAM wParam){
     if(wParam==1){
         if(sound_0>=0){
-            midi_play_note(sound_1);
+            midi_play_note(sound_1_to_play);
         }
         KillTimer(hwnd,1);
     }

@@ -95,7 +95,7 @@ public:
     void pokaz_interwal();
     void dalej_interwal();
     void odp_interwal(int odp);
-    int sound_0, sound_1;
+    int sound_0, sound_1, sound_1_to_play;
     int sound_interval;
     void play_interval();
 
