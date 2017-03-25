@@ -28,7 +28,7 @@ interval_type=
 //typ interwa³u / dŸwiêku: 0-6
 
 interwaly=
-111000000000
+111100000000
 //ostatnio w³¹czone interwa³y (0 - wy³¹czony, 1 - w³¹czony)
 
 oktawy=

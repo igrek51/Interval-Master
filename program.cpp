@@ -306,12 +306,30 @@ void App::odp_interwal(int odp){
                 odpowiedz = false;
             }
         }
+        //pierwsza odpiwiedŸ
         if(!config->stat_odpowiedziany){
             config->stat_odpowiedzi++;
             if(!odpowiedz){
                 config->stat_bledne++;
             }
+        }else{ //kolejna odpowiedŸ
+            // odtworzenie wybranej odpowiedzi
+            if(config->ustawienia_type<=TYP_INTERWAL){
+                if(sound_0<0){
+                    echo("B³¹d: brak dŸwiêku podstawowego. Wylosuj nowy.");
+                    return;
+                }
+                sound_1 = sound_0 + odp;
+            }else if(config->ustawienia_type==TYP_DZWIEK || config->ustawienia_type==TYP_AKORD_D || config->ustawienia_type==TYP_AKORD_M){
+                if(sound_0<0){
+                    echo("B³¹d: Wylosuj now¹ oktawê.");
+                    return;
+                }
+                sound_0 = note_C(note_octave(sound_0)) + odp-1;
+            }
+            play_interval();
         }
+        
         config->stat_odpowiedziany = true;
         if(!config->stat_odgadniety)
             config->stat_odgadniety = odpowiedz;
